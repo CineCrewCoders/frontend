@@ -11,8 +11,13 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@mui/base": "^5.0.0-beta.40",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@firebase/auth-types": "^0.12.1",
+    "@mui/icons-material": "^5.15.15",
+    "@mui/material": "^5.15.15",
     "@tanstack/react-query": "^5.29.2",
+    "axios": "^1.6.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3"
