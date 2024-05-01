@@ -5,12 +5,17 @@ import App from './App.tsx'
 import { AuthContext } from './context/AuthContext.ts'
 import './index.css'
 import { queryClient } from './queryClient.ts'
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import { darkTheme } from './themes/dark.ts'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <AuthContext.Provider value={null}>
-        <App />
+        <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+          <App />
+        </ThemeProvider>
       </AuthContext.Provider>
     </BrowserRouter>
   </QueryClientProvider>
