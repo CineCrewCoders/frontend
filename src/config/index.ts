@@ -1,2 +1,2 @@
-export * from './apiConfig'
+export * from './moviesApiConfig'
 export * from './authConfig'
