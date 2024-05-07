@@ -8,6 +8,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import { darkTheme } from './themes/dark.ts'
 import { AuthProvider } from './context/AuthProvider.tsx'
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from 'react-toastify'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
@@ -16,6 +17,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <ThemeProvider theme={darkTheme}>
           <CssBaseline />
           <App />
+          <ToastContainer />
         </ThemeProvider>
       </AuthProvider>
     </BrowserRouter>

@@ -7,17 +7,14 @@ import { generateUsername } from "unique-username-generator";
 import { api, authApi } from "../config";
 import { AuthContext } from "../context";
 import { IAuth } from "../interfaces";
+import { getAxiosErrorMessages } from "../utils";
 
 const login = async (credentials: IAuth) => {
     try {
         const res = await authApi.post<User>("/login", credentials);
         return res.data;
     } catch (error) {
-        const res = (error as AxiosError).response?.data as object;
-        if (res && "error" in res) {
-            throw new Error(res.error as string);
-        }
-        throw new Error(`An error occurred: ${(error as AxiosError).message}`);
+        throw new Error(getAxiosErrorMessages(error as AxiosError));
     }
 }
 
@@ -29,11 +26,7 @@ const register = async (credentials: IAuth) => {
         await api.post<string>(`/signup`, { userID: uid, username: username });
         return res.data;
     } catch (error) {
-        const res = (error as AxiosError).response?.data as object;
-        if (res && "error" in res) {
-            throw new Error(res.error as string);
-        }
-        throw new Error(`An error occurred: ${(error as AxiosError)}`);
+        throw new Error(getAxiosErrorMessages(error as AxiosError));
     }
 }
 

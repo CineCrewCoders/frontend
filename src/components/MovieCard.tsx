@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { IMovie } from '../interfaces';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { Favorite } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import placeholder from "../assets/movie_placeholder.png";
@@ -16,10 +16,13 @@ interface IMovieCardProps {
 export const MovieCard: FunctionComponent<IMovieCardProps> = ({ movie }) => {
   const navigate = useNavigate();
   const [image, setImage] = useState(movie.poster_url);
+  useEffect(() => {
+    setImage(movie.poster_url)
+  }, [movie.poster_url])
 
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, maxHeight: 450 }}>
       <CardActionArea
         onClick={() => {
           navigate(`/movie/${movie.ID}`)
@@ -35,7 +38,7 @@ export const MovieCard: FunctionComponent<IMovieCardProps> = ({ movie }) => {
           onError={() => { setImage(placeholder) }}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant="h5" component="div" >
             {movie.title}
           </Typography>
         </CardContent>

@@ -1,11 +1,15 @@
-import { User } from '@firebase/auth-types'
-import { LockOutlined } from '@mui/icons-material'
-import { Avatar, Box, Button, CircularProgress, Container, CssBaseline, Grid, TextField, Typography } from '@mui/material'
-import { UseMutateAsyncFunction } from '@tanstack/react-query'
-import { FunctionComponent, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { IAuth } from '../interfaces'
-import { ToastContainer, toast } from 'react-toastify'
+import { FunctionComponent, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+import { User } from '@firebase/auth-types';
+import { LockOutlined } from '@mui/icons-material';
+import {
+    Avatar, Box, Button, CircularProgress, Container, CssBaseline, Grid, TextField, Typography
+} from '@mui/material';
+import { UseMutateAsyncFunction } from '@tanstack/react-query';
+
+import { IAuth } from '../interfaces';
 
 interface IAuthLayoutScreen {
     onSubmit: UseMutateAsyncFunction<User, Error, IAuth, unknown>
@@ -91,6 +95,6 @@ export const AuthLayout: FunctionComponent<IAuthLayoutScreen> = ({ onSubmit, sig
                     </Box>
                 </Box>
             </Container>
-            <ToastContainer /></>
+            </>
     )
 }
