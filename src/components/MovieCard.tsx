@@ -22,7 +22,7 @@ export const MovieCard: FunctionComponent<IMovieCardProps> = ({ movie }) => {
 
 
   return (
-    <Card sx={{ maxWidth: 345, maxHeight: 450 }}>
+    <Card sx={{ maxWidth: 345, maxHeight: 500 }}>
       <CardActionArea
         onClick={() => {
           navigate(`/movie/${movie.ID}`)
@@ -34,11 +34,17 @@ export const MovieCard: FunctionComponent<IMovieCardProps> = ({ movie }) => {
           height="140"
           image={image}
           alt={movie.title}
-          sx={{ height: '100%' }}
+          sx={{ height: '350px' }}
           onError={() => { setImage(placeholder) }}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div" >
+          <Typography gutterBottom variant="h5" component="div" height={28} sx={{
+            whiteSpace: 'pre',
+            display: 'block',
+            textOverflow: 'ellipsis',
+            wordWrap: 'break-word',
+            overflow: 'hidden'
+          }} >
             {movie.title}
           </Typography>
         </CardContent>
