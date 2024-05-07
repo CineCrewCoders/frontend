@@ -1,51 +1,60 @@
-import { IAuth } from "../interfaces";
-import { authApi } from "../config";
 import { User } from "@firebase/auth-types";
+import { UseMutationResult, useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { generateUsername } from "unique-username-generator";
+import { api, authApi } from "../config";
+import { AuthContext } from "../context";
+import { IAuth } from "../interfaces";
 
-export const login = async (credentials: IAuth) => {
-    const res = await authApi.post<User>("/login", credentials);
-    const user = res.data;
-    if (!user?.uid) {
-        throw new Error("User not found");
+const login = async (credentials: IAuth) => {
+    try {
+        const res = await authApi.post<User>("/login", credentials);
+        return res.data;
+    } catch (error) {
+        const res = (error as AxiosError).response?.data as object;
+        if (res && "error" in res) {
+            throw new Error(res.error as string);
+        }
+        throw new Error(`An error occurred: ${(error as AxiosError).message}`);
     }
-    console.log(user);
-    return user;
 }
 
-export const register = async (credentials: IAuth) => {
-    const res = await authApi.post<User>("/register", credentials);
-    const user = res.data;
-    if (!user?.uid) {
-        throw new Error("User not found");
+const register = async (credentials: IAuth) => {
+    try {
+        const res = await authApi.post<User>("/register", credentials);
+        const uid = res.data.uid;
+        const username = generateUsername();
+        await api.post<string>(`/signup`, { userID: uid, username: username });
+        return res.data;
+    } catch (error) {
+        const res = (error as AxiosError).response?.data as object;
+        if (res && "error" in res) {
+            throw new Error(res.error as string);
+        }
+        throw new Error(`An error occurred: ${(error as AxiosError)}`);
     }
-    console.log(user);
-    return user;
 }
 
-export const useLogin = () => {
+export const useFirebaseLogin = (): UseMutationResult<User, Error, IAuth, unknown> => {
+    const { loginLocal } = useContext(AuthContext);
     const navigate = useNavigate();
     return useMutation({
         mutationFn: (credentials: IAuth) => login(credentials),
-        onSuccess: () => {
+        onSuccess: (user) => {
+            loginLocal(user)
             navigate("/");
-        },
-        onError: (error) => {
-            console.error(error);
         }
     });
 }
 
-export const useRegister = () => {
+export const useFirebaseRegister = (): UseMutationResult<User, Error, IAuth, unknown> => {
     const navigate = useNavigate();
-    return useMutation({
+    return useMutation<User, Error, IAuth, unknown>({
         mutationFn: (credentials: IAuth) => register(credentials),
         onSuccess: () => {
             navigate("/login");
-        },
-        onError: (error) => {
-            console.error(error);
         }
     });
 }

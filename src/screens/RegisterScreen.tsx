@@ -1,9 +1,9 @@
-import { useRegister } from '../api/auth.api';
+import { useFirebaseRegister } from '../api/auth.api';
 import { AuthLayout } from '../layouts'
 
 export const RegisterScreen = () => {
-    const { mutateAsync: mutateRegister } = useRegister();
+    const { isPending, mutateAsync: onSubmit } = useFirebaseRegister();
     return (
-        <AuthLayout signIn={false} onSubmit={mutateRegister} />
+        <AuthLayout signIn={false} onSubmit={onSubmit} isLoading={isPending} />
     )
 }

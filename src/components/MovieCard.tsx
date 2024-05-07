@@ -16,7 +16,6 @@ interface IMovieCardProps {
 export const MovieCard: FunctionComponent<IMovieCardProps> = ({ movie }) => {
   const navigate = useNavigate();
   const [image, setImage] = useState(movie.poster_url);
-  console.log(movie)
 
 
   return (
@@ -33,7 +32,7 @@ export const MovieCard: FunctionComponent<IMovieCardProps> = ({ movie }) => {
           image={image}
           alt={movie.title}
           sx={{ height: '100%' }}
-          onError={(e: unknown) => { console.log(e), setImage(placeholder) }}
+          onError={() => { setImage(placeholder) }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">

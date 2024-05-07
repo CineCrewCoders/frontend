@@ -10,6 +10,8 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Search } from "./Search";
+import { useContext, useState } from "react";
+import { AuthContext } from "../context";
 
 const pages_ = [
   {
@@ -27,9 +29,10 @@ const pages_ = [
 ];
 
 export const Navbar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(
     null
   );
+  const { logoutLocal } = useContext(AuthContext);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -40,7 +43,7 @@ export const Navbar = () => {
   };
 
   const handleLogout = () => {
-    console.log("logout")
+    logoutLocal();
   }
 
   return (
@@ -128,6 +131,7 @@ export const Navbar = () => {
               <Button
                 variant="text"
                 color="inherit"
+                onClick={handleLogout}
               >
                 <Logout />
               </Button>
