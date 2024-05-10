@@ -1,15 +1,9 @@
 import { Logout } from "@mui/icons-material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { AppBar, Box, Button, Toolbar } from "@mui/material";
-import Container from "@mui/material/Container";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Typography from "@mui/material/Typography";
+import { AppBar, Box, Button, Toolbar, Container, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
-import { Search } from "./Search";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context";
 
@@ -55,7 +49,7 @@ export const Navbar = () => {
         <Toolbar disableGutters >
           <Container sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Logo />
-            <Search />
+            {/* <Search /> */}
             <Box sx={{ display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
