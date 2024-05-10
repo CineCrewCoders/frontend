@@ -25,7 +25,7 @@ export const Watchlist = () => {
     }
 
     if (data?.length === 0) {
-        return <Typography variant="h3" style={{ textAlign: 'center', marginTop: '16vh' }}>No movies in your watchlist</Typography>
+        return <Typography variant="h3" style={{ textAlign: 'center' }}>No movies in your watchlist</Typography>
     }
 
     return (

@@ -1,21 +1,50 @@
-import { Box, CircularProgress, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Container, Grid, Rating, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getMovie } from "../api";
+import { getMovie, useModifyMovieRating, useRateMovie } from "../api";
 import { AuthContext } from "../context";
 
 export const Movie = () => {
     const { id } = useParams();
     const { userID } = useContext(AuthContext);
-    const { isPending, data, error } = useQuery({ queryKey: ["movie"], queryFn: () => getMovie(id || '', userID || '') });
+    const { isPending, data: movie, error } = useQuery({ queryKey: ["movie"], queryFn: () => getMovie(id || '', userID || '') });
+    const [rating, setRating] = useState<number>((movie?.score || 0) / 2);
+    const [wasMovieRated, setWasMovieRated] = useState<boolean>(movie?.score !== undefined || false);
+    const [isMovieRated, setIsMovieRated] = useState<boolean>(movie?.score !== undefined || false);
+    const { mutateAsync: rateMovie } = useRateMovie();
+    const { mutateAsync: modifyMovieRating } = useModifyMovieRating();
+
+
+
+    useEffect(() => {
+        if (movie?.score) {
+            setRating(Number(movie.score) / 2);
+            setIsMovieRated(true);
+        }
+    }, [isPending, movie?.score]);
 
     if (error) {
         toast.error((error as Error).message, {
             position: "bottom-center",
         });
         return null;
+    }
+
+    const handleRateMovie = () => {
+        if (rating * 2 < 1) return;
+        if (movie?.score || wasMovieRated) {
+            modifyMovieRating({ movieId: String(movie?.ID), score: rating * 2 });
+        } else {
+            rateMovie({ movieId: String(movie?.ID), score: rating * 2 });
+        }
+        setIsMovieRated(true);
+        setWasMovieRated(true);
+    }
+
+    const reRateMovie = () => {
+        setIsMovieRated(false);
     }
 
     return (
@@ -51,7 +80,7 @@ export const Movie = () => {
                         sx={{
                             width: { xs: '100%', sm: 400 },
                             height: { xs: '100%', sm: 450 },
-                            backgroundImage: `url(${data.poster_url})`,
+                            backgroundImage: `url(${movie.poster_url})`,
                             backgroundPosition: 'center',
                             backgroundSize: 'cover',
                         }}
@@ -65,13 +94,13 @@ export const Movie = () => {
                         }}
                     >
                         <Typography variant="h4" component="h2">
-                            {data.title}
+                            {movie.title}
                         </Typography>
                         <Typography variant="subtitle1" color="textSecondary">
-                            {data.year} | {data.runtime} minutes
+                            {movie.year} | {movie.runtime} minutes
                         </Typography>
                         <Typography variant="subtitle1" color="textSecondary">
-                            Directed by {data.director}
+                            Directed by {movie.director}
                         </Typography>
                         <Box
                             sx={{
@@ -82,7 +111,7 @@ export const Movie = () => {
                                 marginBottom: 4,
                             }}
                         >
-                            {data.genres.map((genre, index) => (
+                            {movie.genres.map((genre, index) => (
                                 <Typography
                                     key={index}
                                     variant="body2"
@@ -100,7 +129,7 @@ export const Movie = () => {
                             ))}
                         </Box>
                         <Typography variant="body1" paragraph align="left" paddingRight="10px">
-                            {data.plot}
+                            {movie.plot}
                         </Typography>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
@@ -108,7 +137,7 @@ export const Movie = () => {
                                     Actors:
                                 </Typography>
                                 <Box>
-                                    {data.actors.map((actor, index) => (
+                                    {movie.actors.map((actor, index) => (
                                         <Typography key={index} variant="body2">
                                             {actor}
                                         </Typography>
@@ -120,8 +149,21 @@ export const Movie = () => {
                                     Rating:
                                 </Typography>
                                 <Typography variant="body2">
-                                    {data.rating.average} / 10 ({data.rating.num_votes} votes)
+                                    {movie.rating.average} / 10 ({movie.rating.num_votes} votes)
                                 </Typography>
+                            </Grid>
+                            <Grid item xs={12} sm={12}>
+                                <div style={{ marginTop: '24px', display: 'flex', width: '80%', gap: 13 }}>
+                                    <Rating size="large" value={rating} onChange={(_, newValue) => setRating(newValue || 0)} precision={0.5} readOnly={isMovieRated} />
+                                    {!isMovieRated && <Button onClick={handleRateMovie}> <Typography variant="h6">Rate Movie</Typography></Button>}
+                                    {isMovieRated && (
+                                        <Button onClick={reRateMovie}>
+                                            <Typography variant="h6">
+                                                Change Rating
+                                            </Typography>
+                                        </Button>
+                                    )}
+                                </div>
                             </Grid>
                         </Grid>
                     </Container>

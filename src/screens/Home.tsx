@@ -1,10 +1,10 @@
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { getMovies, getWatched, getWatchlist } from "../api";
-import { MoviesLayout } from "../layouts";
-import { toast } from "react-toastify";
 import { useContext } from "react";
+import { toast } from "react-toastify";
+import { getMovies, getWatched, getWatchlist } from "../api";
 import { AuthContext } from "../context";
+import { MoviesLayout } from "../layouts";
 
 const MOVIES_PER_PAGE = 8;
 
@@ -15,14 +15,27 @@ export const Home = () => {
         queryKey: ['getMovies'],
         queryFn: getMovies,
     })
-    const { data: userWatchlist } = useQuery({
+    const { data: userWatchlist, error: watchlistError } = useQuery({
         queryKey: ['getWatchlist'],
         queryFn: () => getWatchlist(userID || ''),
     })
-    const { data: userWatched } = useQuery({
+    const { data: userWatched, error: watchedError } = useQuery({
         queryKey: ['getWatched'],
         queryFn: () => getWatched(userID || ''),
     })
+    if (watchlistError || watchedError) {
+        toast.error((watchlistError || watchedError as Error).message, {
+            position: "bottom-center",
+        });
+    }
+
+
+    if (!isPending && allMovies === undefined) {
+        toast.error('Movies not found', {
+            position: "bottom-center",
+        });
+        return <Typography variant="h3" style={{ textAlign: 'center' }}>Movies not found</Typography>
+    }
     const filteredMovies = allMovies?.filter(movie => !userWatchlist?.find(watchlistMovie => watchlistMovie.ID === movie.ID)).filter(movie => !userWatched?.find(watchedMovie => watchedMovie.ID === movie.ID));
 
     if (isError) {

@@ -12,4 +12,5 @@ export interface IMovie {
         num_votes: number
         average: number
     }
+    score?: number
 }

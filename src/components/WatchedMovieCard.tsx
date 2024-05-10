@@ -1,5 +1,5 @@
 import { Clear } from "@mui/icons-material";
-import { Button, Rating } from "@mui/material";
+import { Button } from "@mui/material";
 import { FunctionComponent } from "react";
 import { toast } from "react-toastify";
 import { useRemoveMovieFromWatched } from "../api";
@@ -15,6 +15,8 @@ export const WatchedMovieCard: FunctionComponent<IWatchedMovieCardProps> = ({ mo
 
     const { mutateAsync: removeMovieFromWatched } = useRemoveMovieFromWatched();
 
+
+
     const handleRemoveFromWatched = async () => {
         try {
             await removeMovieFromWatched(String(movie.ID));
@@ -28,10 +30,11 @@ export const WatchedMovieCard: FunctionComponent<IWatchedMovieCardProps> = ({ mo
 
     return (
         <MovieCardLayout movie={movie} >
-            <Rating name="read-only" value={Number(movie.rating)} precision={0.5} readOnly />
-            <Button size="small" color="secondary" onClick={handleRemoveFromWatched} >
-                <Clear />
-            </Button>
+            <div style={{ display: 'flex', justifyContent: 'center', flexGrow: 1 }}>
+                <Button size="small" color="secondary" onClick={handleRemoveFromWatched} >
+                    <Clear />
+                </Button>
+            </div>
         </MovieCardLayout >
     )
 }

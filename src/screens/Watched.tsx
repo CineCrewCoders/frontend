@@ -25,7 +25,7 @@ export const Watched = () => {
     }
 
     if (data?.length === 0) {
-        return <Typography variant="h3" style={{ textAlign: 'center', marginTop: '16vh' }}>You didn't add any movies here</Typography>
+        return <Typography variant="h3" style={{ textAlign: 'center' }}>You didn't add any movies here</Typography>
     }
 
     return (

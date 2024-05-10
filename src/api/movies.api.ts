@@ -157,3 +157,58 @@ export const useRemoveMovieFromWatched = (): UseMutationResult<void, Error, stri
         }
     });
 }
+
+
+export const rateMovie = async (movieId: string, score: number, uid: string) => {
+    try {
+        await api.post('/movies/rate', {
+            movieId,
+            score
+        }, {
+            headers: {
+                UserId: uid
+            }
+        });
+    } catch (error) {
+        throw new Error(getAxiosErrorMessages(error as AxiosError));
+    }
+}
+
+export const useRateMovie = (): UseMutationResult<void, Error, { movieId: string, score: number }, unknown> => {
+    const { userID } = useContext(AuthContext);
+    return useMutation({
+        mutationFn: ({ movieId, score }) => rateMovie(movieId, score, userID || ''),
+        onError: (error) => {
+            toast.error((error as Error).message, {
+                position: "bottom-center",
+            });
+        }
+    });
+}
+
+const modifyMovieRating = async (movieId: string, score: number, uid: string) => {
+    try {
+        await api.put('/movies/rate', {
+            movieId,
+            score
+        }, {
+            headers: {
+                UserId: uid
+            }
+        });
+    } catch (error) {
+        throw new Error(getAxiosErrorMessages(error as AxiosError));
+    }
+}
+
+export const useModifyMovieRating = (): UseMutationResult<void, Error, { movieId: string, score: number }, unknown> => {
+    const { userID } = useContext(AuthContext);
+    return useMutation({
+        mutationFn: ({ movieId, score }) => modifyMovieRating(movieId, score, userID || ''),
+        onError: (error) => {
+            toast.error((error as Error).message, {
+                position: "bottom-center",
+            });
+        }
+    });
+}
