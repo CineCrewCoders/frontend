@@ -36,6 +36,6 @@ export const Home = () => {
     }
 
     return (
-        <MoviesLayout movies={filteredMovies?.sort(() => 0.5 - Math.random()) || []} moviesPerPage={MOVIES_PER_PAGE} />
+        <MoviesLayout movies={filteredMovies?.sort(() => 0.5 - Math.random()) || []} moviesPerPage={MOVIES_PER_PAGE} movieCardType="home" />
     )
 }

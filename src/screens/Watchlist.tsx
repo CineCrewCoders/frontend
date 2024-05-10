@@ -29,6 +29,6 @@ export const Watchlist = () => {
     }
 
     return (
-        <MoviesLayout movies={data || []} moviesPerPage={MOVIES_PER_PAGE} />
+        <MoviesLayout movies={data || []} moviesPerPage={MOVIES_PER_PAGE} movieCardType="watchlist" />
     )
 }
