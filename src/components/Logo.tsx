@@ -7,8 +7,8 @@ interface ILogoProps {
 }
 export const Logo: FunctionComponent<ILogoProps> = () => {
     return (
-        <Link to="/">
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }} >
                 <LiveTv fontSize="large" sx={{ paddingRight: '4px' }} />
                 <Typography
                     variant="h6"

@@ -87,7 +87,7 @@ export const AuthLayout: FunctionComponent<IAuthLayoutScreen> = ({ onSubmit, sig
                                 </Button>
                                 <Grid container>
                                     <Grid item>
-                                        {signIn ? <Link to="/register">{"Don't have an account? Sign Up"}</Link> : <Link to="/login">{"Already have an account? Sign In"}</Link>}
+                                        {signIn ? <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/register">{"Don't have an account? Sign Up"}</Link > : <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/login">{"Already have an account? Sign In"}</Link>}
                                     </Grid>
                                 </Grid>
                             </>
@@ -95,6 +95,6 @@ export const AuthLayout: FunctionComponent<IAuthLayoutScreen> = ({ onSubmit, sig
                     </Box>
                 </Box>
             </Container>
-            </>
+        </>
     )
 }

@@ -49,7 +49,6 @@ export const Navbar = () => {
         <Toolbar disableGutters >
           <Container sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Logo />
-            {/* <Search /> */}
             <Box sx={{ display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
