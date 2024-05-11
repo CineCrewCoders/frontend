@@ -218,7 +218,7 @@ export const searchMovies = async (title: string, minScore: number, genres: stri
         const res = await api.get<IMovie[]>('/search', {
             params: {
                 title,
-                "min_score": minScore,
+                "min_average": minScore,
                 ...(genres.length > 0 && { genres: genres.join(',') })
             },
             headers: {
