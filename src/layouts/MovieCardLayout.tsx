@@ -5,7 +5,7 @@ import placeholder from "../assets/movie_placeholder.png";
 import { IMovie } from "../interfaces";
 
 interface IMovieCardLayoutProps {
-    children: ReactNode,
+    children?: ReactNode,
     movie: IMovie,
 }
 

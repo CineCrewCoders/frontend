@@ -29,7 +29,6 @@ export const Home = () => {
         });
     }
 
-
     if (!isPending && allMovies === undefined) {
         toast.error('Movies not found', {
             position: "bottom-center",

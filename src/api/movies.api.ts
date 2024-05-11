@@ -212,3 +212,33 @@ export const useModifyMovieRating = (): UseMutationResult<void, Error, { movieId
         }
     });
 }
+
+export const searchMovies = async (title: string, minScore: number, genres: string[], uid: string) => {
+    try {
+        const res = await api.get<IMovie[]>('/search', {
+            params: {
+                title,
+                "min_score": minScore,
+                ...(genres.length > 0 && { genres: genres.join(',') })
+            },
+            headers: {
+                UserId: uid
+            }
+        });
+        return res.data;
+    } catch (error) {
+        throw new Error(getAxiosErrorMessages(error as AxiosError));
+    }
+}
+
+export const useSearchMovies = (): UseMutationResult<IMovie[], Error, { title: string, minScore: number, genres: string[] }, unknown> => {
+    const { userID } = useContext(AuthContext);
+    return useMutation({
+        mutationFn: ({ title, minScore, genres }) => searchMovies(title, minScore, genres, userID || ''),
+        onError: (error) => {
+            toast.error((error as Error).message, {
+                position: "bottom-center",
+            });
+        }
+    });
+}

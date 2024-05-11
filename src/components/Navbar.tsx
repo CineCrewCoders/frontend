@@ -9,8 +9,8 @@ import { AuthContext } from "../context";
 
 const pages_ = [
   {
-    menuTitle: "Home",
-    pageURL: "/"
+    menuTitle: "Search",
+    pageURL: "/search"
   },
   {
     menuTitle: "Watchlist",

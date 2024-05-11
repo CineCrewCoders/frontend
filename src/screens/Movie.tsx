@@ -17,7 +17,6 @@ export const Movie = () => {
     const { mutateAsync: modifyMovieRating } = useModifyMovieRating();
 
 
-
     useEffect(() => {
         if (movie?.score) {
             setRating(Number(movie.score) / 2);

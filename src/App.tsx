@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom"
 import { NavbarLayout } from "./layouts/NavbarLayout"
-import { LoginScreen, Movie, NotFound, RegisterScreen, Watched, Watchlist } from "./screens"
+import { LoginScreen, Movie, NotFound, RegisterScreen, Search, Watched, Watchlist } from "./screens"
 import { Home } from "./screens/Home"
 import { HomeLayout } from "./layouts"
 
@@ -17,6 +17,7 @@ const App = () => {
         <Route path="watchlist" element={<Watchlist />} />
         <Route path="watched" element={<Watched />} />
         <Route path="movie/:id" element={<Movie />} />
+        <Route path="search" element={<Search />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
