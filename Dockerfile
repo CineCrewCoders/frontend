@@ -2,10 +2,10 @@ FROM oven/bun:1 as development
 
 WORKDIR /usr/src/app
 
-COPY package.json bun.lockb ./
+COPY ./frontend/package.json ./frontend/bun.lockb ./
 RUN bun install --frozen-lockfile
 
-COPY . .
+COPY ./frontend .
 
 RUN bunx --bun vite build
 
