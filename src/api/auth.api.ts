@@ -14,6 +14,7 @@ const login = async (credentials: IAuth) => {
         const res = await authApi.post<User>("/login", credentials);
         return res.data;
     } catch (error) {
+        console.error(error);
         throw new Error(getAxiosErrorMessages(error as AxiosError));
     }
 }
@@ -26,6 +27,7 @@ const register = async (credentials: IAuth) => {
         await api.post<string>(`/signup`, { userID: uid, username: username });
         return res.data;
     } catch (error) {
+        console.error(error, authApi.defaults);
         throw new Error(getAxiosErrorMessages(error as AxiosError));
     }
 }
